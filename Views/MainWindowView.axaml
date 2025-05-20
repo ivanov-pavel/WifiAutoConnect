@@ -1,0 +1,76 @@
+<Window
+	x:Class="WifiAutoConnect.Views.MainWindowView"
+	x:DataType="MainWindowModel"
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	Background="Transparent"
+	CanResize="False"
+	ExtendClientAreaToDecorationsHint="True"
+	Icon="{CompiledBinding WifiState,
+						   Converter={StaticResource StateConverter}}"
+	SizeToContent="WidthAndHeight"
+	Title="WiFi Auto Connect"
+	TransparencyLevelHint="AcrylicBlur"
+	WindowStartupLocation="CenterScreen"
+	>
+	<Panel>
+		<ExperimentalAcrylicBorder IsHitTestVisible="False">
+			<ExperimentalAcrylicBorder.Material>
+				<ExperimentalAcrylicMaterial
+					BackgroundSource="Digger"
+					MaterialOpacity="0.5"
+					TintColor="Black"
+					TintOpacity="1"
+					/>
+			</ExperimentalAcrylicBorder.Material>
+		</ExperimentalAcrylicBorder>
+
+		<StackPanel
+			Margin="16,32,16,16"
+			Background="Transparent"
+			Orientation="Vertical"
+			Spacing="8"
+			>
+			<BehaviorsCollection.Items>
+				<WindowDrag />
+			</BehaviorsCollection.Items>
+
+			<Image
+				Width="96"
+				Height="96"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				Source="{CompiledBinding WifiState,
+										 Converter={StaticResource StateConverter}}"
+				/>
+
+			<AutoCompleteBox
+				FilterMode="StartsWithOrdinal"
+				IsHitTestVisible="{CompiledBinding !IsStarted}"
+				ItemsSource="{CompiledBinding AvailableSsids}"
+				Text="{CompiledBinding WifiSsid}"
+				Watermark="WiFi SSID"
+				/>
+
+			<Button
+				HorizontalAlignment="Stretch"
+				HorizontalContentAlignment="Center"
+				VerticalContentAlignment="Center"
+				Command="{CompiledBinding StartUpdateCommand}"
+				Content="Start update"
+				FontWeight="ExtraBold"
+				IsVisible="{CompiledBinding !IsStarted}"
+				/>
+
+			<Button
+				HorizontalAlignment="Stretch"
+				HorizontalContentAlignment="Center"
+				VerticalContentAlignment="Center"
+				Command="{CompiledBinding StopUpdateCommand}"
+				Content="Stop update"
+				FontWeight="ExtraBold"
+				IsVisible="{CompiledBinding IsStarted}"
+				/>
+		</StackPanel>
+	</Panel>
+</Window>
